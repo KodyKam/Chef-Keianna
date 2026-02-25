@@ -117,30 +117,23 @@ h1,h2,h3{
 }
 
 /* ======================
-   CARDS WITH RIGHT IMAGE
+   CARDS
 ====================== */
-
 .card{
-    display:flex;
-    align-items:stretch;
+    position: relative;
     background:#161616;
-    padding:24px;
     border-radius:calc(var(--radius-lg) - 6px);
+    padding:24px;
     margin-top:18px;
-    border:1px solid rgba(255,255,255,0.04);
-    gap:20px;
-}
-
-/* ======================
-   GOLD LIGHT SWEEP
-====================== */
-
-.card{
-    position:relative;
     overflow:hidden;
+    border:1px solid rgba(255,255,255,0.04);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    color:#f3f3f3;
 }
 
-/* hidden light beam */
+/* GOLD LIGHT SWEEP */
 .card::before{
     content:"";
     position:absolute;
@@ -148,7 +141,6 @@ h1,h2,h3{
     left:-120%;
     width:60%;
     height:100%;
-
     background:linear-gradient(
         120deg,
         transparent 0%,
@@ -159,10 +151,9 @@ h1,h2,h3{
         rgba(212,175,55,0.0) 80%,
         transparent 100%
     );
-
     transform:skewX(-20deg);
     pointer-events:none;
-    opacity:.0;
+    opacity:0;
 }
 
 .card:hover::before{
@@ -176,248 +167,149 @@ h1,h2,h3{
 }
 
 @keyframes goldSweep{
-    0%{
-        left:-120%;
-    }
-    100%{
-        left:140%;
-    }
+    0%{ left:-120%; }
+    100%{ left:140%; }
 }
 
-/* LEFT SIDE TEXT */
+/* CARD CONTENT */
 .card-content{
-    flex:1 1 auto;
     position:relative;
     z-index:2;
+    padding:20px;
 }
 
-/* RIGHT IMAGE PANEL */
-.card-image{
-    flex:0 0 260px;          /* ← fixed visible width */
-    height:auto;
-    min-height:200px;        /* ← prevents collapse */
+/* ======================
+   SKILLS & TRAINING DESKTOP BACKGROUND
+====================== */
+@media(min-width:1000px){
+    .skills-card {
+        background-size:cover;
+        background-position:center;
+        background-repeat:no-repeat;
+        color:#f3f3f3;
+        min-height:220px;
+    }
 
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-
-    border-radius:12px;
-
-    opacity:1;               /* FULL visibility for debugging */
-
-    display:block;
+    .skills-card .card-content{
+        background:rgba(0,0,0,0.38);
+        border-radius:12px;
+        padding:20px;
+        max-width:90%;
+    }
 }
 
 /* MOBILE */
 @media(max-width:700px){
-
     .card{
         flex-direction:column;
     }
 
-    /* ======================
-   CARD IMAGE FADE-IN
-====================== */
-
-.card-image{
-    flex:0 0 35%;
-    min-height:140px;
-    background-size:cover;
-    background-position:center;
-    border-radius:var(--radius-lg);
-    margin-left:0;
-    margin-top:14px;
-
-    transform:translateY(25px) scale(.98);
-
-    /* animation start state */
-    opacity:0;
-    transform:translateX(30px) scale(.98);
-    transition:
-        opacity .9s ease,
-        transform 1s cubic-bezier(.22,.61,.36,1);
-}
-
-/* when revealed */
-.card.reveal.active .card-image{
-    opacity:1;
-    transform:translateX(0) scale(1);
-    transform:translateY(0) scale(1);
-    transition-delay:.15s;
-}
-
     .mobile-grid-list{
-    list-style:none;
-    padding:0;
-    margin:0;
-    line-height:1.4;
+        list-style:none;
+        padding:0;
+        margin:0;
+        line-height:1.4;
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:14px 18px;
+        text-align:center;
+    }
 
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px 18px;
-    text-align:center;
-}
+    .mobile-grid-list li::before{
+        content:"• ";
+        color:var(--gold);
+    }
 
-/* gold bullets */
-.mobile-grid-list li::before{
-    content:"• ";
-    color:var(--gold);
-}
-
-/* ONLY center last item when list count is ODD (5 items case) */
-.mobile-grid-list li:last-child:nth-child(odd){
-    grid-column:1 / -1;
-    justify-self:center;
-    max-width:260px;
-}
-}
-
-/* ======================
-   DIVIDERS
-====================== */
-.divider{
-    height:80px;
-    max-width:1000px;
-    margin:-30px auto -30px auto;
-    position:relative;
-    z-index:0;
-}
-
-.divider::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:radial-gradient(ellipse at center, rgba(212,175,55,0.35), rgba(212,175,55,0.15) 40%, transparent 70%);
-    filter:blur(22px);
-}
-
-/* ======================
-   CTA
-====================== */
-.cta{
-    background:var(--gold);
-    color:#000;
-    text-align:center;
-    border-radius:var(--radius-lg);
-    padding:50px 25px;
-}
-
-/* ======================
-   STICKY BOOK BUTTON
-====================== */
-.sticky-book{
-    position:fixed;
-    bottom:calc(20px + env(safe-area-inset-bottom));
-    left:50%;
-    transform:translateX(-50%);
-    background:var(--gold);
-    color:#000;
-    padding:14px 26px;
-    border-radius:40px;
-    font-weight:600;
-    text-decoration:none;
-    box-shadow:0 8px 25px rgba(0,0,0,.4);
-    z-index:1000;
-}
-
-/* ======================
-   STICKY → CTA MORPH
-====================== */
-.sticky-book.morph{
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    bottom:-30px;
-    box-shadow:none;
-    background:#000;
-    color:var(--gold);
-    border:2px solid #000;
-    transition: all .6s ease, background .4s ease, color .4s ease;
-}
-
-#cta-section{
-    position:relative;
-}
-
-/* ======================
-   FLOATING SPICES
-====================== */
-.spices{
-    position:fixed;
-    inset:0;
-    z-index:-1;
-    overflow:hidden;
-}
-
-.spice{
-    position:absolute;
-    width:6px;
-    height:6px;
-    background:var(--gold);
-    border-radius:50%;
-    opacity:.15;
-    animation:float 18s linear infinite;
-}
-
-@keyframes float{
-    from{transform:translateY(110vh);}
-    to{transform:translateY(-10vh);}
-}
-
-/* ======================
-   SCROLL REVEAL
-====================== */
-.reveal{
-    opacity:0;
-    transform:translateY(40px);
-    transition:all .8s ease;
-}
-.reveal.active{
-    opacity:1;
-    transform:translateY(0);
-}
-
-.divider{
-    opacity:0;
-    transform:translateY(20px);
-    transition:all .8s ease;
-}
-.divider.active{
-    opacity:1;
-    transform:translateY(0);
-}
-
-/* ======================
-   GRID CARDS
-====================== */
-.grid{
-    display:grid;
-    gap:20px;
-}
-
-/* ======================
-   RESPONSIVE
-====================== */
-@media(min-width:700px){
-    .hero-text h1{font-size:3rem;}
-    .grid{grid-template-columns:repeat(2,1fr);}
-}
-
-@media(min-width:1000px){
-    .grid{grid-template-columns:repeat(3,1fr);}
-    .sticky-book{
-        left:auto;
-        right:30px;
-        transform:none;
+    .mobile-grid-list li:last-child:nth-child(odd){
+        grid-column:1 / -1;
+        justify-self:center;
+        max-width:260px;
     }
 }
 
-footer{
-    text-align:center;
-    opacity:.6;
-    padding:40px 20px;
-}
+/* DIVIDERS, CTA, STICKY BUTTON, SPICES, REVEAL (unchanged) */
+.divider{ height:80px; max-width:1000px; margin:-30px auto -30px auto; position:relative; z-index:0;}
+.divider::before{ content:""; position:absolute; inset:0; background:radial-gradient(ellipse at center, rgba(212,175,55,0.35), rgba(212,175,55,0.15) 40%, transparent 70%); filter:blur(22px);}
+.cta{background:var(--gold); color:#000; text-align:center; border-radius:var(--radius-lg); padding:50px 25px;}
+.sticky-book{position:fixed; bottom:calc(20px + env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); background:var(--gold); color:#000; padding:14px 26px; border-radius:40px; font-weight:600; text-decoration:none; box-shadow:0 8px 25px rgba(0,0,0,.4); z-index:1000;}
+.sticky-book.morph{position:absolute; left:50%; transform:translateX(-50%); bottom:-30px; box-shadow:none; background:#000; color:var(--gold); border:2px solid #000; transition: all .6s ease, background .4s ease, color .4s ease;}
+#cta-section{position:relative;}
+.spices{position:fixed; inset:0; z-index:-1; overflow:hidden;}
+.spice{position:absolute; width:6px; height:6px; background:var(--gold); border-radius:50%; opacity:.15; animation:float 18s linear infinite;}
+@keyframes float{from{transform:translateY(110vh);} to{transform:translateY(-10vh);}}
+.reveal{opacity:0; transform:translateY(40px); transition:all .8s ease;}
+.reveal.active{opacity:1; transform:translateY(0);}
+.grid{display:grid; gap:20px;}
+@media(min-width:700px){.hero-text h1{font-size:3rem;} .grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr);}}
+footer{text-align:center; opacity:.6; padding:40px 20px;}
 
+/* ======================
+   DESKTOP SKILLS & TRAINING CARD OVERLAY
+====================== */
+@media(min-width:1000px){
+
+  /* Only apply to Skills & Training section */
+  section.container:nth-of-type(3) .card { 
+      display:block;              /* stack content over image */
+      position:relative;
+      padding:0;
+      overflow:hidden;
+      border:none;
+      border-radius:16px;
+  }
+
+  /* Image as background */
+  section.container:nth-of-type(3) .card-image {
+      position:relative;
+      width:100%;
+      height:260px;              /* adjust height as needed */
+      border-radius:16px;
+      margin:0;
+  }
+
+  /* Text overlay on image */
+  section.container:nth-of-type(3) .card-content {
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;     /* vertically center content */
+      z-index:2;
+      background:rgba(0,0,0,0.4); /* optional dark overlay for readability */
+  }
+
+  /* Ensure h3 and ul inside overlay are readable */
+  section.container:nth-of-type(3) .card-content h3,
+  section.container:nth-of-type(3) .card-content ul {
+      color:#fff;
+      margin:0 0 8px 0;
+  }
+
+  section.container:nth-of-type(3) .card-content ul {
+      list-style:none;
+      padding:0;
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px 18px;
+  }
+
+  section.container:nth-of-type(3) .card-content ul li {
+      flex:1 1 45%; /* 2 items per row */
+      text-align:left;
+  }
+
+  /* Center last item for 5-item lists like Freelance list (doesn't affect Skills & Training) */
+  section.container:nth-of-type(3) .card-content ul li:last-child:nth-child(odd){
+      flex-basis:100%;
+      text-align:center;
+  }
+
+}
 </style>
 </head>
 <body>
@@ -453,7 +345,7 @@ footer{
 <section class="container reveal">
   <h2 class="section-title">Skills & Training</h2>
   <div class="grid">
-    <div class="card reveal">
+    <div class="card reveal skills-card" style="background-image:url('culinary-expertise.png');">
       <div class="card-content">
         <h3>Culinary Expertise</h3>
         <ul class="mobile-grid-list">
@@ -463,9 +355,8 @@ footer{
           <li>Event execution</li>
         </ul>
       </div>
-      <div class="card-image" style="background-image:url('culinary-expertise.png');"></div>
     </div>
-    <div class="card reveal">
+    <div class="card reveal skills-card" style="background-image:url('specialties.png');">
       <div class="card-content">
         <h3>Specialties</h3>
         <ul class="mobile-grid-list">
@@ -475,9 +366,8 @@ footer{
           <li>Banquet service</li>
         </ul>
       </div>
-      <div class="card-image" style="background-image:url('specialties.png');"></div>
     </div>
-    <div class="card reveal">
+    <div class="card reveal skills-card" style="background-image:url('professional-strengths.png');">
       <div class="card-content">
         <h3>Professional Strengths</h3>
         <ul class="mobile-grid-list">
@@ -487,7 +377,6 @@ footer{
           <li>Client-first mindset</li>
         </ul>
       </div>
-      <div class="card-image" style="background-image:url('professional-strengths.png');"></div>
     </div>
   </div>
 </section>
