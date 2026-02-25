@@ -179,82 +179,140 @@ h1,h2,h3{
 }
 
 /* ======================
-   SKILLS & TRAINING DESKTOP BACKGROUND
+   CARD IMAGE
 ====================== */
-@media(min-width:1000px){
-    .skills-card {
-        background-size:cover;
-        background-position:center;
-        background-repeat:no-repeat;
-        color:#f3f3f3;
-        min-height:220px;
-    }
-
-    .skills-card .card-content{
-        background:rgba(0,0,0,0.38);
-        border-radius:12px;
-        padding:20px;
-        max-width:90%;
-    }
+.card-image{
+    width:100%;
+    height:auto;
+    min-height:200px;
+    background-size:cover;
+    background-position:center;
+    border-radius:12px;
+    opacity:1;
+    display:block;
 }
 
-/* MOBILE */
+/* ======================
+   MOBILE LAYOUT (<700px)
+====================== */
 @media(max-width:700px){
+
+    /* Cards stack vertically */
     .card{
         flex-direction:column;
     }
 
-    /* Ensure cards stack vertically */
-    .grid .card {
-        flex-direction: column;
-        align-items: flex-start; /* text left-aligned */
-    }
-
     /* Image below text */
     .grid .card .card-image {
-        width: 100%;
-        height: 140px; /* adjust as needed */
-        margin-left: 0;
-        margin-top: 14px; /* space between text and image */
-        flex: none;
-        opacity: 1; /* keep fully visible */
-        transform: translateY(25px) scale(.98);
-        transition: opacity .9s ease, transform 1s cubic-bezier(.22,.61,.36,1);
+        width:100%;
+        height:140px;
+        margin-left:0;
+        margin-top:14px;
+        flex:none;
+        opacity:1;
+        transform:translateY(25px) scale(.98);
+        transition:opacity .9s ease, transform 1s cubic-bezier(.22,.61,.36,1);
     }
 
     .grid .card.reveal.active .card-image {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-        transition-delay: .15s;
+        transform:translateY(0) scale(1);
+        opacity:1;
+        transition-delay:.15s;
     }
 
     /* Lists nicely centered in 2-column grid */
     .mobile-grid-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        line-height: 1.4;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px 18px;
-        text-align: center;
+        list-style:none;
+        padding:0;
+        margin:0;
+        line-height:1.4;
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:14px 18px;
+        text-align:center;
     }
 
     /* gold bullets */
-    .mobile-grid-list li::before {
-        content: "• ";
-        color: var(--gold);
+    .mobile-grid-list li::before{
+        content:"• ";
+        color:var(--gold);
     }
 
     /* center last item for odd-number lists */
-    .mobile-grid-list li:last-child:nth-child(odd) {
-        grid-column: 1 / -1;
-        justify-self: center;
-        max-width: 260px;
+    .mobile-grid-list li:last-child:nth-child(odd){
+        grid-column:1 / -1;
+        justify-self:center;
+        max-width:260px;
     }
 }
 
-/* DIVIDERS, CTA, STICKY BUTTON, SPICES, REVEAL (unchanged) */
+/* ======================
+   DESKTOP SKILLS & TRAINING CARDS (≥1000px)
+   Text overlay on background image
+====================== */
+@media(min-width:1000px){
+
+  /* Only Skills & Training cards */
+  .skills-card { 
+      display:block;
+      position:relative;
+      padding:0;
+      overflow:hidden;
+      border:none;
+      border-radius:16px;
+  }
+
+  .skills-card .card-image {
+      position:relative;
+      width:100%;
+      height:260px;
+      border-radius:16px;
+      margin:0;
+  }
+
+  .skills-card .card-content {
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      z-index:2;
+      background:rgba(0,0,0,0.4); /* optional dark overlay */
+  }
+
+  .skills-card .card-content h3,
+  .skills-card .card-content ul {
+      color:#fff;
+      margin:0 0 8px 0;
+  }
+
+  .skills-card .card-content ul {
+      list-style:none;
+      padding:0;
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px 18px;
+  }
+
+  .skills-card .card-content ul li {
+      flex:1 1 45%; /* 2 items per row */
+      text-align:left;
+  }
+
+  /* Center last item if odd (5 items) */
+  .skills-card .card-content ul li:last-child:nth-child(odd){
+      flex-basis:100%;
+      text-align:center;
+  }
+}
+
+/* ======================
+   DIVIDERS, CTA, STICKY BUTTON, SPICES, REVEAL, GRID
+====================== */
 .divider{ height:80px; max-width:1000px; margin:-30px auto -30px auto; position:relative; z-index:0;}
 .divider::before{ content:""; position:absolute; inset:0; background:radial-gradient(ellipse at center, rgba(212,175,55,0.35), rgba(212,175,55,0.15) 40%, transparent 70%); filter:blur(22px);}
 .cta{background:var(--gold); color:#000; text-align:center; border-radius:var(--radius-lg); padding:50px 25px;}
@@ -271,72 +329,6 @@ h1,h2,h3{
 @media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr);}}
 footer{text-align:center; opacity:.6; padding:40px 20px;}
 
-/* ======================
-   DESKTOP SKILLS & TRAINING CARD OVERLAY
-====================== */
-@media(min-width:1000px){
-
-  /* Only apply to Skills & Training section */
-  section.container:nth-of-type(3) .card { 
-      display:block;              /* stack content over image */
-      position:relative;
-      padding:0;
-      overflow:hidden;
-      border:none;
-      border-radius:16px;
-  }
-
-  /* Image as background */
-  section.container:nth-of-type(3) .card-image {
-      position:relative;
-      width:100%;
-      height:260px;              /* adjust height as needed */
-      border-radius:16px;
-      margin:0;
-  }
-
-  /* Text overlay on image */
-  section.container:nth-of-type(3) .card-content {
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      padding:24px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;     /* vertically center content */
-      z-index:2;
-      background:rgba(0,0,0,0.4); /* optional dark overlay for readability */
-  }
-
-  /* Ensure h3 and ul inside overlay are readable */
-  section.container:nth-of-type(3) .card-content h3,
-  section.container:nth-of-type(3) .card-content ul {
-      color:#fff;
-      margin:0 0 8px 0;
-  }
-
-  section.container:nth-of-type(3) .card-content ul {
-      list-style:none;
-      padding:0;
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px 18px;
-  }
-
-  section.container:nth-of-type(3) .card-content ul li {
-      flex:1 1 45%; /* 2 items per row */
-      text-align:left;
-  }
-
-  /* Center last item for 5-item lists like Freelance list (doesn't affect Skills & Training) */
-  section.container:nth-of-type(3) .card-content ul li:last-child:nth-child(odd){
-      flex-basis:100%;
-      text-align:center;
-  }
-
-}
 </style>
 </head>
 <body>
@@ -372,39 +364,44 @@ footer{text-align:center; opacity:.6; padding:40px 20px;}
 <section class="container reveal">
   <h2 class="section-title">Skills & Training</h2>
   <div class="grid">
-    <div class="card reveal skills-card" style="background-image:url('culinary-expertise.png');">
-      <div class="card-content">
-        <h3>Culinary Expertise</h3>
-        <ul class="mobile-grid-list">
-          <li>Fine dining preparation</li>
-          <li>Menu development</li>
-          <li>Professional plating</li>
-          <li>Event execution</li>
-        </ul>
-      </div>
-    </div>
-    <div class="card reveal skills-card" style="background-image:url('specialties.png');">
-      <div class="card-content">
-        <h3>Specialties</h3>
-        <ul class="mobile-grid-list">
-          <li>Fusion cuisine</li>
-          <li>Heritage dishes</li>
-          <li>Private dining</li>
-          <li>Banquet service</li>
-        </ul>
-      </div>
-    </div>
-    <div class="card reveal skills-card" style="background-image:url('professional-strengths.png');">
-      <div class="card-content">
-        <h3>Professional Strengths</h3>
-        <ul class="mobile-grid-list">
-          <li>Fast-paced workflow</li>
-          <li>Team collaboration</li>
-          <li>Food safety standards</li>
-          <li>Client-first mindset</li>
-        </ul>
-      </div>
-    </div>
+<div class="card reveal skills-card">
+  <div class="card-content">
+    <h3>Culinary Expertise</h3>
+    <ul class="mobile-grid-list">
+      <li>Fine dining preparation</li>
+      <li>Menu development</li>
+      <li>Professional plating</li>
+      <li>Event execution</li>
+    </ul>
+  </div>
+  <div class="card-image" style="background-image:url('culinary-expertise.png');"></div>
+</div>
+
+<div class="card reveal skills-card">
+  <div class="card-content">
+    <h3>Specialties</h3>
+    <ul class="mobile-grid-list">
+      <li>Fusion cuisine</li>
+      <li>Heritage dishes</li>
+      <li>Private dining</li>
+      <li>Banquet service</li>
+    </ul>
+  </div>
+  <div class="card-image" style="background-image:url('specialties.png');"></div>
+</div>
+
+<div class="card reveal skills-card">
+  <div class="card-content">
+    <h3>Professional Strengths</h3>
+    <ul class="mobile-grid-list">
+      <li>Fast-paced workflow</li>
+      <li>Team collaboration</li>
+      <li>Food safety standards</li>
+      <li>Client-first mindset</li>
+    </ul>
+  </div>
+  <div class="card-image" style="background-image:url('professional-strengths.png');"></div>
+</div>
   </div>
 </section>
 
