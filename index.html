@@ -119,43 +119,157 @@ h1,h2,h3{
 /* ======================
    CARDS WITH RIGHT IMAGE
 ====================== */
+
 .card{
     display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
+    align-items:stretch;
     background:#161616;
     padding:24px;
     border-radius:calc(var(--radius-lg) - 6px);
     margin-top:18px;
     border:1px solid rgba(255,255,255,0.04);
+    gap:20px;
+}
+
+/* ======================
+   GOLD LIGHT SWEEP
+====================== */
+
+.card{
+    position:relative;
     overflow:hidden;
 }
 
-.card-content{
-    flex:1;
-    z-index:1;
+/* hidden light beam */
+.card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:60%;
+    height:100%;
+
+    background:linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(212,175,55,0.0) 20%,
+        rgba(212,175,55,0.35) 45%,
+        rgba(255,230,140,0.45) 50%,
+        rgba(212,175,55,0.35) 55%,
+        rgba(212,175,55,0.0) 80%,
+        transparent 100%
+    );
+
+    transform:skewX(-20deg);
+    pointer-events:none;
+    opacity:.0;
 }
 
+.card:hover::before{
+    animation:goldSweep 1.2s ease forwards;
+    opacity:1;
+}
+
+.card:active::before{
+    animation:goldSweep 1s ease forwards;
+    opacity:1;
+}
+
+@keyframes goldSweep{
+    0%{
+        left:-120%;
+    }
+    100%{
+        left:140%;
+    }
+}
+
+/* LEFT SIDE TEXT */
+.card-content{
+    flex:1 1 auto;
+    position:relative;
+    z-index:2;
+}
+
+/* RIGHT IMAGE PANEL */
 .card-image{
-    flex:0 0 35%;
+    flex:0 0 260px;          /* ← fixed visible width */
+    height:auto;
+    min-height:200px;        /* ← prevents collapse */
+
     background-size:cover;
     background-position:center;
-    opacity:15;
-    border-radius:var(--radius-lg);
-    margin-left:20px;
+    background-repeat:no-repeat;
+
+    border-radius:12px;
+
+    opacity:1;               /* FULL visibility for debugging */
+
+    display:block;
 }
 
-/* Mobile adjustments */
+/* MOBILE */
 @media(max-width:700px){
+
     .card{
         flex-direction:column;
     }
-    .card-image{
-        width:100%;
-        height:120px;
-        margin-left:0;
-        margin-top:10px;
-    }
+
+    /* ======================
+   CARD IMAGE FADE-IN
+====================== */
+
+.card-image{
+    flex:0 0 35%;
+    min-height:140px;
+    background-size:cover;
+    background-position:center;
+    border-radius:var(--radius-lg);
+    margin-left:0;
+    margin-top:14px;
+
+    transform:translateY(25px) scale(.98);
+
+    /* animation start state */
+    opacity:0;
+    transform:translateX(30px) scale(.98);
+    transition:
+        opacity .9s ease,
+        transform 1s cubic-bezier(.22,.61,.36,1);
+}
+
+/* when revealed */
+.card.reveal.active .card-image{
+    opacity:1;
+    transform:translateX(0) scale(1);
+    transform:translateY(0) scale(1);
+    transition-delay:.15s;
+}
+
+    .mobile-grid-list{
+    list-style:none;
+    padding:0;
+    margin:0;
+    line-height:1.4;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px 18px;
+    text-align:center;
+}
+
+/* gold bullets */
+.mobile-grid-list li::before{
+    content:"• ";
+    color:var(--gold);
+}
+
+/* ONLY center last item when list count is ODD (5 items case) */
+.mobile-grid-list li:last-child:nth-child(odd){
+    grid-column:1 / -1;
+    justify-self:center;
+    max-width:260px;
+}
 }
 
 /* ======================
@@ -323,7 +437,7 @@ footer{
 <!-- EXPERIENCE -->
 <section class="container reveal">
   <h2 class="section-title">Experience</h2>
-  <div class="card">
+  <div class="card reveal">
     <div class="card-content">
       Professional culinary experience supporting private dining,
       large-scale catered events, and collaborative kitchen environments.
@@ -339,10 +453,10 @@ footer{
 <section class="container reveal">
   <h2 class="section-title">Skills & Training</h2>
   <div class="grid">
-    <div class="card">
+    <div class="card reveal">
       <div class="card-content">
         <h3>Culinary Expertise</h3>
-        <ul>
+        <ul class="mobile-grid-list">
           <li>Fine dining preparation</li>
           <li>Menu development</li>
           <li>Professional plating</li>
@@ -351,10 +465,10 @@ footer{
       </div>
       <div class="card-image" style="background-image:url('culinary-expertise.png');"></div>
     </div>
-    <div class="card">
+    <div class="card reveal">
       <div class="card-content">
         <h3>Specialties</h3>
-        <ul>
+        <ul class="mobile-grid-list">
           <li>Fusion cuisine</li>
           <li>Heritage dishes</li>
           <li>Private dining</li>
@@ -363,17 +477,17 @@ footer{
       </div>
       <div class="card-image" style="background-image:url('specialties.png');"></div>
     </div>
-    <div class="card">
+    <div class="card reveal">
       <div class="card-content">
         <h3>Professional Strengths</h3>
-        <ul>
+        <ul class="mobile-grid-list">
           <li>Fast-paced workflow</li>
           <li>Team collaboration</li>
           <li>Food safety standards</li>
           <li>Client-first mindset</li>
         </ul>
       </div>
-      <div class="card-image" style="background-image:url('strengths.png');"></div>
+      <div class="card-image" style="background-image:url('professional-strengths.png');"></div>
     </div>
   </div>
 </section>
@@ -383,9 +497,9 @@ footer{
 <!-- FREELANCE AVAILABILITY -->
 <section class="container reveal">
   <h2 class="section-title">Freelance Availability: Sun - Thu</h2>
-  <div class="card">
+  <div class="card reveal">
     <div class="card-content">
-      <ul>
+      <ul class="mobile-grid-list">
         <li>Weddings & catered events</li>
         <li>Caterer partnerships</li>
         <li>Corporate functions</li>
