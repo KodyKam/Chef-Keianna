@@ -312,6 +312,29 @@ h1,h2,h3{
     flex-basis:100%;
     text-align:center;
 }
+/* Target the list inside the Freelance card (5-item list) */
+  section.container:nth-of-type(4) .card-content ul.mobile-grid-list {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+      gap:10px 18px; /* row gap / column gap */
+      padding:0;
+      margin:0;
+      list-style:none;
+      text-align:center; /* center text inside li */
+      justify-items: center; /* center items in each column */
+  }
+
+  section.container:nth-of-type(4) .card-content ul.mobile-grid-list li::before {
+      content:"• ";
+      color:var(--gold);
+  }
+
+  /* Center last item if odd (5th) */
+  section.container:nth-of-type(4) .card-content ul.mobile-grid-list li:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      justify-self:center;
+      max-width:260px;
+  }
 }
 
 /* ======================
